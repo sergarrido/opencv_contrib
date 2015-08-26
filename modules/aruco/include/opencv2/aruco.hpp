@@ -121,9 +121,9 @@ namespace aruco {
  * - errorCorrectionRate error correction rate respect to the maximun error correction capability
  *   for each dictionary. (default 0.6).
  */
-struct DetectorParameters {
+struct CV_EXPORTS DetectorParameters {
 
-    CV_EXPORTS DetectorParameters();
+    DetectorParameters();
 
     int adaptiveThreshWinSizeMin;
     int adaptiveThreshWinSizeMax;
