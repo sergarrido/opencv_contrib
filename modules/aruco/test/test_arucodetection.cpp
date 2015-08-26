@@ -130,10 +130,7 @@ void CV_ArucoDetectionSimple::run(int) {
 }
 
 
-const double PI = 3.141592653589793238463;
-
-
-static double deg2rad(double deg) { return deg * PI / 180.; }
+static double deg2rad(double deg) { return deg * CV_PI / 180.; }
 
 /**
  * @brief Get rvec and tvec from yaw, pitch and distance
@@ -148,10 +145,10 @@ static void getSyntheticRT(double yaw, double pitch, double distance, Mat &rvec,
     Mat rotZ(3, 1, CV_64FC1);
     rotZ.ptr< double >(0)[0] = 0;
     rotZ.ptr< double >(0)[1] = 0;
-    rotZ.ptr< double >(0)[2] = -0.5 * PI;
+    rotZ.ptr< double >(0)[2] = -0.5 * CV_PI;
 
     Mat rotX(3, 1, CV_64FC1);
-    rotX.ptr< double >(0)[0] = 0.5 * PI;
+    rotX.ptr< double >(0)[0] = 0.5 * CV_PI;
     rotX.ptr< double >(0)[1] = 0;
     rotX.ptr< double >(0)[2] = 0;
 
