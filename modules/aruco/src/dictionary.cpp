@@ -202,31 +202,29 @@ Mat Dictionary::getByteListFromBits(const Mat &bits) {
     Mat candidateByteList(1, nbytes, CV_8UC4, Scalar::all(0));
     unsigned char currentBit = 0;
     int currentByte = 0;
+    Vec4b* byteReference = &(candidateByteList.ptr< Vec4b >(0)[currentByte]);
     for(int row = 0; row < bits.rows; row++) {
         for(int col = 0; col < bits.cols; col++) {
             // circular shift
-            candidateByteList.ptr< Vec4b >(0)[currentByte][0] =
-                candidateByteList.ptr< Vec4b >(0)[currentByte][0] << 1;
-            candidateByteList.ptr< Vec4b >(0)[currentByte][1] =
-                candidateByteList.ptr< Vec4b >(0)[currentByte][1] << 1;
-            candidateByteList.ptr< Vec4b >(0)[currentByte][2] =
-                candidateByteList.ptr< Vec4b >(0)[currentByte][2] << 1;
-            candidateByteList.ptr< Vec4b >(0)[currentByte][3] =
-                candidateByteList.ptr< Vec4b >(0)[currentByte][3] << 1;
+            byteReference->val[0] = byteReference->val[0] << 1;
+            byteReference->val[1] = byteReference->val[1] << 1;
+            byteReference->val[2] = byteReference->val[2] << 1;
+            byteReference->val[3] = byteReference->val[3] << 1;
             // increment if bit is 1
             if(bits.at< unsigned char >(row, col))
-                candidateByteList.ptr< Vec4b >(0)[currentByte][0]++;
+                byteReference->val[0]++;
             if(bits.at< unsigned char >(col, bits.cols - 1 - row))
-                candidateByteList.ptr< Vec4b >(0)[currentByte][1]++;
+                byteReference->val[1]++;
             if(bits.at< unsigned char >(bits.rows - 1 - row, bits.cols - 1 - col))
-                candidateByteList.ptr< Vec4b >(0)[currentByte][2]++;
+                byteReference->val[2]++;
             if(bits.at< unsigned char >(bits.rows - 1 - col, row))
-                candidateByteList.ptr< Vec4b >(0)[currentByte][3]++;
+                byteReference->val[3]++;
             currentBit++;
             if(currentBit == 8) {
                 // next byte
                 currentBit = 0;
                 currentByte++;
+                byteReference = &(candidateByteList.ptr< Vec4b >(0)[currentByte]);
             }
         }
     }

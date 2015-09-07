@@ -49,8 +49,32 @@ namespace aruco {
 
 
 /**
- * @brief Dictionary/Set of markers. It contains the inner codification
+ * @brief Dictionary/Set of markers. It contains the inner codification of the dictionary markers.
  *
+ * The main member of the class is the bytesList matrix, which contains all the inner codifications.
+ * markerSize is the number of bits per dimension on each marker. For instance, markerSize will
+ * equal 5 in dictionaries of 5x5 bits.
+ * maxCorrectionBits is the maximum number of bits that can be corrected in the dictionary
+ * during the marker identification process. This parameter depends on the inter-marker distance
+ * of the dictionary.
+ *
+ * The binary information of each marker in the dictionary is stored in their four possible
+ * rotations (0, 90, 180 and 270 degrees), so markers do not need to be rotated every time they are
+ * are checked for identification (this way we speed up the identification process).
+ * Furthermore, each marker rotation is not stored bit by bit. Instead it is stored byte by byte.
+ * For instance, the first byte of second rotation (90 degrees) in any marker will be obtained from
+ * the first 8 bits in the second rotation of the marker (considering row-major order).
+ * The reason of this is that Hamming distances can be calculated significantly faster by using a
+ * Look-Up-Table for bytes.
+ *
+ * Each row of bytesList corresponds to a dictionary marker and the marker row number is actually
+ * the id of the marker (marker in row 12 will have id=12).
+ * The number of columns of the matrix is equal to the number of bytes required to store all the
+ * bits of each marker, i.e. ceil( (markerSize*markerSize)/8.
+ * Finally, the type of matrix is 8UC4. The four channels per elements allow to store each marker
+ * in its four rotations.
+ *
+ * The element bytesList.at<Vec4b>(i, j)[k] is j-th byte of i-th marker, in its k-th rotation
  */
 class CV_EXPORTS Dictionary {
 
