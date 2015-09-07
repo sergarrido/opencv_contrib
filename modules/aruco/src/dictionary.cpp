@@ -94,7 +94,7 @@ bool Dictionary::identify(const Mat &onlyBits, int &idx, int &rotation,
 
     CV_Assert(onlyBits.rows == markerSize && onlyBits.cols == markerSize);
 
-    int maxCorrectionRecalculed = int(double(maxCorrectionBits) * maxCorrectionRate);
+    int maxCorrectionRecalculated = int(double(maxCorrectionBits) * maxCorrectionRate);
 
     // get as a byte list
     Mat candidateBytes = getByteListFromBits(onlyBits);
@@ -121,7 +121,7 @@ bool Dictionary::identify(const Mat &onlyBits, int &idx, int &rotation,
         }
 
         // if maxCorrection is fullfilled, return this one
-        if(currentMinDistance <= maxCorrectionRecalculed) {
+        if(currentMinDistance <= maxCorrectionRecalculated) {
             idx = m;
             rotation = currentRotation;
             break;
