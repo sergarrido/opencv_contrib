@@ -103,6 +103,10 @@ The generated image is:
 
 A full working example is included in the ```create_marker.cpp``` inside the module samples folder.
 
+Note: The samples now take input via commandline via the [OpenCV Commandline Parser](http://docs.opencv.org/trunk/d0/d2e/classcv_1_1CommandLineParser.html#gsc.tab=0). For this file the example parameters will look like
+``` c++
+    "/Users/Sarthak/Dropbox/OpenCV_GSoC/marker.png" -d=10 -id=1
+```
 
 Marker Detection
 ------
@@ -226,6 +230,11 @@ output vector of rejected candidates.
 
 A full working example is included in the ```detect_markers.cpp``` inside the module samples folder.
 
+Note: The samples now take input via commandline via the [OpenCV Commandline Parser](http://docs.opencv.org/trunk/d0/d2e/classcv_1_1CommandLineParser.html#gsc.tab=0). For this file the example parameters will look like
+``` c++
+    -c="_path_/calib.txt" -d=10
+```
+
 
 
 Pose Estimation
@@ -256,7 +265,7 @@ The aruco module provides a function to estimate the poses of all the detected m
 ``` c++
     Mat cameraMatrix, distCoeffs;
     ...
-    vector< Mat > rvecs, tvecs;
+    vector< Vec3d > rvecs, tvecs;
     cv::aruco::estimatePoseSingleMarkers(corners, 0.05, cameraMatrix, distCoeffs, rvecs, tvecs);
 ```
 
@@ -325,9 +334,17 @@ A basic full example for pose estimation from single markers:
 
 Sample video:
 
-[![ArUco markers detection video](http://img.youtube.com/vi/IsXWrcB_Hvs/0.jpg)](https://youtu.be/IsXWrcB_Hvs)
+@htmlonly
+<iframe width="420" height="315" src="https://www.youtube.com/embed/IsXWrcB_Hvs" frameborder="0" allowfullscreen></iframe>
+@endhtmlonly
 
 A full working example is included in the ```detect_markers.cpp``` inside the module samples folder.
+
+Note: The samples now take input via commandline via the [OpenCV Commandline Parser](http://docs.opencv.org/trunk/d0/d2e/classcv_1_1CommandLineParser.html#gsc.tab=0). For this file the example parameters will look like
+``` c++
+    -c="_path_/calib.txt" -d=10
+```
+
 
 
 Selecting a dictionary
@@ -665,7 +682,7 @@ The bits of the marker border should be black. This parameter specifies the allo
 bits in the border, i.e. the maximum number of white bits in the border. It is represented
 relative to the total number of bits in the marker.
 
-Default value: 0.5
+Default value: 0.35
 
 
 - ```double errorCorrectionRate```

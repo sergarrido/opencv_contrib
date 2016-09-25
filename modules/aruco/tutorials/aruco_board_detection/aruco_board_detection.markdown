@@ -64,7 +64,7 @@ The aruco module provides a specific function, ```estimatePoseBoard()```, to per
     cv::aruco::detectMarkers(inputImage, board.dictionary, markerCorners, markerIds);
     // if at least one marker detected
     if(markerIds.size() > 0) {
-        cv::Mat rvec, tvec;
+        cv::Vec3d rvec, tvec;
         int valid = cv::aruco::estimatePoseBoard(markerCorners, markerIds, board, cameraMatrix, distCoeffs, rvec, tvec);
     }
 ```
@@ -74,7 +74,7 @@ The parameters of estimatePoseBoard are:
 - ```markerCorners``` and ```markerIds```: structures of detected markers from ```detectMarkers()``` function.
 - ```board```: the ```Board``` object that defines the board layout and its ids
 - ```cameraMatrix``` and ```distCoeffs```: camera calibration parameters necessary for pose estimation.
-- ```rvec``` and ```tvec```: estimated pose of the Board.
+- ```rvec``` and ```tvec```: estimated pose of the Board. If not empty then treated as initial guess.
 - The function returns the total number of markers employed for estimating the board pose. Note that not all the
  markers provided in ```markerCorners``` and ```markerIds``` should be used, since only the markers whose ids are
 listed in the ```Board::ids``` structure are considered.
@@ -155,6 +155,11 @@ The output image will be something like this:
 
 A full working example of board creation is included in the ```create_board.cpp``` inside the module samples folder.
 
+Note: The samples now take input via commandline via the [OpenCV Commandline Parser](http://docs.opencv.org/trunk/d0/d2e/classcv_1_1CommandLineParser.html#gsc.tab=0). For this file the example parameters will look like
+``` c++
+    "_output path_/aboard.png" -w=5 -h=7 -l=100 -s=10 -d=10
+```
+
 Finally, a full example of board detection:
 
 ``` c++
@@ -181,7 +186,7 @@ Finally, a full example of board detection:
         if (ids.size() > 0) {
             cv::aruco::drawDetectedMarkers(imageCopy, corners, ids);
 
-            cv::Mat rvec, tvec;
+            cv::Vec3d rvec, tvec;
             int valid = estimatePoseBoard(corners, ids, board, cameraMatrix, distCoeffs, rvec, tvec);
 
             // if at least one board marker detected
@@ -198,9 +203,17 @@ Finally, a full example of board detection:
 
 Sample video:
 
-[![Board Detection video](http://img.youtube.com/vi/Q1HlJEjW_j0/0.jpg)](https://youtu.be/Q1HlJEjW_j0)
+@htmlonly
+<iframe width="420" height="315" src="https://www.youtube.com/embed/Q1HlJEjW_j0" frameborder="0" allowfullscreen></iframe>
+@endhtmlonly
 
 A full working example is included in the ```detect_board.cpp``` inside the module samples folder.
+
+Note: The samples now take input via commandline via the [OpenCV Commandline Parser](http://docs.opencv.org/trunk/d0/d2e/classcv_1_1CommandLineParser.html#gsc.tab=0). For this file the example parameters will look like
+``` c++
+    -c="_path_"/calib.txt" "_path_/aboard.png" -w=5 -h=7 -l=100 -s=10 -d=10
+```
+
 
 
 Refine marker detection
