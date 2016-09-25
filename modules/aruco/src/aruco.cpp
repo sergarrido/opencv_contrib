@@ -1542,13 +1542,13 @@ void _drawPlanarBoardImpl(Board *_board, Size outSize, OutputArray _img, int mar
             // remove negativity
             p1.x = p0.x - minX;
             p1.y = p0.y - minY;
-            pf.x = p1.x * float(markerZone.cols - 1) / sizeX;
-            pf.y = float(markerZone.rows - 1) - p1.y * float(markerZone.rows - 1) / sizeY;
+            pf.x = p1.x * float(markerZone.cols) / sizeX;
+            pf.y = float(markerZone.rows - 1) - p1.y * float(markerZone.rows) / sizeY;
             outCorners[j] = pf;
         }
 
         // get tiny marker
-        int tinyMarkerSize = 10 * dictionary.markerSize + 2;
+        int tinyMarkerSize = 10 * (dictionary.markerSize + 2 * borderBits);
         Mat tinyMarker;
         dictionary.drawMarker(_board->ids[m], tinyMarkerSize, tinyMarker, borderBits);
 
